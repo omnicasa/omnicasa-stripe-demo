@@ -134,7 +134,7 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
 
   if (status === "unauthenticated") {
     return (
-      <UiWrapper>
+      <UiWrapper title="Charge Customer">
         <h1 className="text-4xl font-bold mb-2 text-slate-900">
           You have to login to view this page
         </h1>
