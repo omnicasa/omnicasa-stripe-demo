@@ -75,6 +75,7 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
 
   const router = useRouter();
   const stripe = useStripe();
+  const { status } = useSession();
 
   if (!customerId) return <h1>no customer id provided</h1>;
 
@@ -128,8 +129,6 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
     );
     setRes(paymentIntent);
   }
-
-  const { data: session, status } = useSession();
 
   if (status === "loading") return <div>Loading...</div>;
 
@@ -190,9 +189,7 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
                   className="flex items-center w-full text-left space-x-3 px-4 h-12 bg-white ring-1 ring-slate-900/10 hover:ring-slate-300 focus:outline-none focus:ring-2 focus:ring-sky-500 shadow-sm rounded-lg text-slate-400"
                   onChange={(e) => setCard(e.target.value)}
                 >
-                  <option value="" disabled>
-                    Select a card
-                  </option>
+                  <option value="">Select a card</option>
                   {paymentMethods.map((paymentMethod: any) => (
                     <option key={paymentMethod.id} value={paymentMethod.id}>
                       {paymentMethod.sepa_debit.country} ****{" "}

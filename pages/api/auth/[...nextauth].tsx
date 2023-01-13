@@ -15,7 +15,7 @@ export const authOptions = {
     }),
   ],
   callbacks: {
-    async signIn({ account, profile }) {
+    async signIn({ account, profile }: any) {
       if (account.provider === "google") {
         return (
           profile.email_verified &&
