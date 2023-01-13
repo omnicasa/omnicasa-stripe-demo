@@ -65,14 +65,18 @@ const Payment = () => {
   const customerId = query.customer_id as string;
 
   useEffect(() => {
+    const abortCtrl = new AbortController();
+    console.log("log");
     (async () => {
       const response = await fetch(
         `/api/future-payment?customer_id=${customerId}`,
-        { method: "POST" }
+        { method: "POST", signal: abortCtrl.signal }
       );
       const { client_secret: clientSecret } = await response.json();
       setClientSecret(clientSecret);
     })();
+
+    return () => abortCtrl.abort();
   }, [customerId]);
 
   if (!customerId) {
