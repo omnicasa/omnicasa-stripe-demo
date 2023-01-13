@@ -73,7 +73,7 @@ const Payment = () => {
       const { client_secret: clientSecret } = await response.json();
       setClientSecret(clientSecret);
     })();
-  }, []);
+  }, [customerId]);
 
   if (!customerId) {
     return (
