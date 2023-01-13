@@ -9,10 +9,13 @@ import { useRouter } from "next/router";
 import { StripeWrapper } from "../../components/stripe/wrapper";
 import { Button } from "../../components/button";
 import { UiWrapper } from "../../components/uiWrapper";
+import { Locales, translations } from "../../translations";
+import { LanguageSelect } from "../../components/languageSelect";
 
 const SetupForm = ({ customerId }: { customerId: string }) => {
   const stripe = useStripe();
   const elements = useElements();
+  const { locale } = useRouter();
 
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -46,7 +49,7 @@ const SetupForm = ({ customerId }: { customerId: string }) => {
     <form onSubmit={handleSubmit}>
       <PaymentElement />
       <Button className="mt-4" disabled={!stripe}>
-        Submit
+        {translations[locale as Locales].save}
       </Button>
       {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
     </form>
@@ -117,9 +120,12 @@ const Payment = () => {
   return (
     <StripeWrapper clientSecret={clientSecret}>
       <UiWrapper containerClassName="space-y-6">
-        <h1 className="text-4xl font-bold text-gray-800">
-          Omnicasa Recurring payments
-        </h1>
+        <div className="flex justify-between">
+          <h1 className="text-4xl font-bold text-gray-800">
+            {translations[router.locale as Locales]["recurring.title"]}
+          </h1>
+          <LanguageSelect locale="en" />
+        </div>
         {hasError && (
           <div
             className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
@@ -129,9 +135,9 @@ const Payment = () => {
             while submitting your details. Please try again later.
           </div>
         )}
-        <h3 className="text-md text-gray-600">
+        {/* <h3 className="text-md text-gray-600">
           For customer ID: {clientSecret}
-        </h3>
+        </h3> */}
         <SetupForm customerId={customerId} />
       </UiWrapper>
     </StripeWrapper>
