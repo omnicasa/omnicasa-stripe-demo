@@ -55,7 +55,7 @@ const TransactionList = () => {
       <div className="-m-1.5 overflow-x-auto">
         <div className="p-1.5 min-w-full inline-block align-middle">
           <div className="overflow-hidden">
-            <table className="min-w-full divide-y divide-gray-200 dark:divide-gray-700">
+            <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
                   <th
@@ -91,7 +91,7 @@ const TransactionList = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
+              <tbody className="divide-y divide-gray-200">
                 {transactions.map((transaction) => {
                   const formatter = new Intl.NumberFormat("be-BE", {
                     style: "currency",
@@ -112,19 +112,19 @@ const TransactionList = () => {
                   const seperatedNames = names.join(", ");
                   return (
                     <tr
-                      className="hover:bg-gray-100 dark:hover:bg-gray-700"
+                      className="hover:bg-gray-100"
                       key={(transaction as any).customer}
                     >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800 dark:text-gray-200">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
                         {seperatedNames}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                         {(transaction as any).customer}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                         {separatedEmails}
                       </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800 dark:text-gray-200">
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
                         {formattedNumber}
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

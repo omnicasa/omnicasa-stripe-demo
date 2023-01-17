@@ -29,7 +29,7 @@ const renderResponse = (res: any, refresh: () => void) => {
     return (
       <>
         <div
-          className="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg dark:bg-yellow-200 dark:text-yellow-800"
+          className="p-4 mb-4 text-sm text-yellow-700 bg-yellow-100 rounded-lg"
           role="alert"
         >
           <span className="font-medium">Payment processing</span> The webbook
@@ -44,7 +44,7 @@ const renderResponse = (res: any, refresh: () => void) => {
     return (
       <>
         <div
-          className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800"
+          className="p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg"
           role="alert"
         >
           <span className="font-medium">Successful</span> Account was charged
@@ -57,7 +57,7 @@ const renderResponse = (res: any, refresh: () => void) => {
   if (res.status === "requires_payment_method" && res.last_payment_error) {
     return (
       <div
-        className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
+        className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg"
         role="alert"
       >
         <span className="font-medium">{res.last_payment_error.code}</span>{" "}

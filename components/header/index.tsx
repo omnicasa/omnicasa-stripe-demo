@@ -22,12 +22,12 @@ const headerContent = [
 const Header = () => {
   const router = useRouter();
   return (
-    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 dark:bg-gray-800 px-6 md:px-0">
+    <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 px-6 md:px-0">
       <nav className="container w-full mx-auto" aria-label="Global">
         <div className="relative md:flex md:items-center md:justify-between">
           <div className="flex items-center justify-between">
             <a
-              className="flex-none text-xl font-semibold dark:text-white"
+              className="flex-none text-xl font-semibold"
               href="#"
               aria-label="Brand"
             >
@@ -36,7 +36,7 @@ const Header = () => {
             <div className="md:hidden">
               <button
                 type="button"
-                className="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm dark:bg-gray-800 dark:hover:bg-slate-800 dark:border-gray-700 dark:text-gray-400 dark:hover:text-white dark:focus:ring-offset-gray-800"
+                className="hs-collapse-toggle p-2 inline-flex justify-center items-center gap-2 rounded-md border font-medium bg-white text-gray-700 shadow-sm align-middle hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-white focus:ring-blue-600 transition-all text-sm"
                 data-hs-collapse="#navbar-collapse-with-animation"
                 aria-controls="navbar-collapse-with-animation"
                 aria-label="Toggle navigation"
@@ -71,13 +71,13 @@ const Header = () => {
             className="hs-collapse hidden overflow-hidden transition-all duration-300 basis-full grow md:block"
           >
             <div className="overflow-hidden overflow-y-auto max-h-[75vh] scrollbar-y">
-              <div className="flex flex-col gap-x-0 mt-5 divide-y divide-dashed divide-gray-200 md:flex-row md:items-center md:justify-end md:gap-x-7 md:mt-0 md:pl-7 md:divide-y-0 md:divide-solid dark:divide-gray-700">
+              <div className="flex flex-col gap-x-0 mt-5 divide-y divide-dashed divide-gray-200 md:flex-row md:items-center md:justify-end md:gap-x-7 md:mt-0 md:pl-7 md:divide-y-0 md:divide-solid">
                 {headerContent.map((item) => {
                   if (item.isButton) {
                     return (
                       <div className="pt-3 md:pt-0" key={item.title}>
                         <Link
-                          className="inline-flex justify-center items-center gap-x-2 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-2.5 px-3 dark:focus:ring-offset-gray-800"
+                          className="inline-flex justify-center items-center gap-x-2 text-center bg-blue-600 hover:bg-blue-700 border border-transparent text-white text-sm font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 focus:ring-offset-white transition py-2.5 px-3"
                           href={item.link}
                         >
                           {item.title}
@@ -89,7 +89,7 @@ const Header = () => {
                     return (
                       <Link
                         className={`font-medium  py-3 md:py-6${
-                          current ? " text-blue-600 dark:text-blue-500" : ""
+                          current ? " text-blue-600" : ""
                         }`}
                         href={item.link}
                         aria-current={current ? "page" : undefined}
