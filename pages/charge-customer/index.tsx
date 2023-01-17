@@ -129,8 +129,6 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
     setRes(paymentIntent);
   }
 
-  if (status === "loading") return <div>Loading...</div>;
-
   if (status === "unauthenticated") {
     return (
       <UiWrapper title="Charge Customer">
