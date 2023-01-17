@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { Header } from "../header";
 
 type Props = {
   children: React.ReactNode;
@@ -6,6 +7,7 @@ type Props = {
   hasContainer?: boolean;
   tag?: keyof JSX.IntrinsicElements;
   title?: string;
+  hideNav?: boolean;
 } & React.HTMLAttributes<HTMLOrSVGElement>;
 
 const UiWrapper = ({
@@ -14,6 +16,7 @@ const UiWrapper = ({
   hasContainer = true,
   containerClassName,
   title,
+  hideNav = false,
   ...rest
 }: Props) => {
   const wrapperClass = `bg-slate-50 min-h-screen w-full p-8${
@@ -36,13 +39,17 @@ const UiWrapper = ({
 
     return children;
   };
+
   return (
-    <Wrapper {...newRest}>
-      <Head>
-        <title>{title ? `${title} | ` : ""}Omnicasa Recurring Payments</title>
-      </Head>
-      {renderContainer()}
-    </Wrapper>
+    <>
+      {!hideNav && <Header />}
+      <Wrapper {...newRest}>
+        <Head>
+          <title>{title ? `${title} | ` : ""}Omnicasa Recurring Payments</title>
+        </Head>
+        {renderContainer()}
+      </Wrapper>
+    </>
   );
 };
 

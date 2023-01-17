@@ -4,7 +4,6 @@ import {
   useElements,
   useStripe,
 } from "@stripe/react-stripe-js";
-import { loadStripe } from "@stripe/stripe-js";
 import { useRouter } from "next/router";
 import { StripeWrapper } from "../../components/stripe/wrapper";
 import { Button } from "../../components/button";
@@ -61,26 +60,49 @@ const Payment = () => {
   const router = useRouter();
 
   const [clientSecret, setClientSecret] = useState("");
+  const [fetchError, setFetchError] = useState(false);
   const [hasError, setHasError] = useState(() => {
     return query.error ? true : false;
   });
 
   const customerId = query.customer_id as string;
 
-  useEffect(() => {
-    const abortCtrl = new AbortController();
-    console.log("log");
-    (async () => {
-      const response = await fetch(
-        `/api/future-payment?customer_id=${customerId}`,
-        { method: "POST", signal: abortCtrl.signal }
-      );
-      const { client_secret: clientSecret } = await response.json();
-      setClientSecret(clientSecret);
-    })();
+  const abortCtrl = new AbortController();
 
+  async function callApi() {
+    const response = await fetch(
+      `/api/future-payment?customer_id=${customerId}`,
+      { method: "POST", signal: abortCtrl.signal }
+    );
+    console.log(response);
+
+    if (response.status !== 200) {
+      setFetchError(true);
+      return;
+    }
+
+    const { client_secret: clientSecret } = await response.json();
+
+    setClientSecret(clientSecret);
+  }
+
+  useEffect(() => {
+    if (customerId) {
+      callApi();
+    }
     return () => abortCtrl.abort();
   }, [customerId]);
+
+  if (fetchError) {
+    return (
+      <UiWrapper hideNav>
+        <div className="flex items-center flex-col gap-6 justify-center h-screen bg-slate-50">
+          <p className="text-2xl font-bold">Invalid customer ID</p>
+          <Button onClick={() => router.push("/")}>Go back</Button>
+        </div>
+      </UiWrapper>
+    );
+  }
 
   if (!customerId) {
     return (
@@ -119,7 +141,7 @@ const Payment = () => {
 
   return (
     <StripeWrapper clientSecret={clientSecret}>
-      <UiWrapper containerClassName="space-y-6">
+      <UiWrapper containerClassName="space-y-6" hideNav>
         <div className="flex justify-between">
           <h1 className="text-4xl font-bold text-gray-800">
             {translations[router.locale as Locales]["recurring.title"]}
@@ -135,9 +157,6 @@ const Payment = () => {
             while submitting your details. Please try again later.
           </div>
         )}
-        {/* <h3 className="text-md text-gray-600">
-          For customer ID: {clientSecret}
-        </h3> */}
         <SetupForm customerId={customerId} />
       </UiWrapper>
     </StripeWrapper>
