@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Button } from "../../components/button";
 import { StripeWrapper } from "../../components/stripe/wrapper";
-import { SessionProvider, signIn, signOut, useSession } from "next-auth/react";
+import { signIn, signOut, useSession } from "next-auth/react";
 import { UiWrapper } from "../../components/uiWrapper";
 
 type SSRProps = {
@@ -55,7 +55,6 @@ const renderResponse = (res: any, refresh: () => void) => {
   }
 
   if (res.status === "requires_payment_method" && res.last_payment_error) {
-    console.error(res);
     return (
       <div
         className="p-4 mb-4 text-sm text-red-700 bg-red-100 rounded-lg dark:bg-red-200 dark:text-red-800"
@@ -152,8 +151,6 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
     );
   }
 
-  //   console.log({ session, status });
-
   return (
     <StripeWrapper>
       <section className="min-w-screen min-h-screen bg-slate-50">
@@ -228,11 +225,9 @@ const ChargeCustomer = ({ customerId, paymentMethods }: SSRProps) => {
 
 const _ChargeCustomer = (props: SSRProps) => {
   return (
-    <SessionProvider>
-      <StripeWrapper>
-        <ChargeCustomer {...props} />
-      </StripeWrapper>
-    </SessionProvider>
+    <StripeWrapper>
+      <ChargeCustomer {...props} />
+    </StripeWrapper>
   );
 };
 
