@@ -2,13 +2,18 @@ import { PaymentIntent } from "@stripe/stripe-js";
 import { useEffect, useState } from "react";
 import { TransactionBadge } from "./badge";
 
+const Loader = () => <div className="w-full h-6 bg-gray-200 rounded-md" />;
+
 const TransactionList = () => {
   const [transactions, setTransactions] = useState<PaymentIntent[]>([]);
   const [refreshLoading, setRefreshLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   async function fetchTransactions() {
+    setIsLoading(true);
     const res = await fetch("/api/list-transactions", { method: "POST" });
     const json = await res.json();
+    setIsLoading(false);
     setTransactions(json.transactions);
   }
 
@@ -42,7 +47,7 @@ const TransactionList = () => {
             viewBox="0 0 24 24"
             strokeWidth={1.5}
             stroke="currentColor"
-            className="w-6 h-6"
+            className="w-6 h-6 text-slate-800"
           >
             <path
               strokeLinecap="round"
@@ -92,47 +97,69 @@ const TransactionList = () => {
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
-                {transactions.map((transaction) => {
-                  const formatter = new Intl.NumberFormat("be-BE", {
-                    style: "currency",
-                    currency: "EUR",
-                  });
-                  const formattedNumber = formatter.format(
-                    transaction.amount / 100
-                  );
-
-                  const names = (transaction as any).charges.data.map(
-                    (d: any) => d.billing_details.name
-                  );
-
-                  const email = (transaction as any).charges.data.map(
-                    (d: any) => d.billing_details.email
-                  );
-                  const separatedEmails = email.join(", ");
-                  const seperatedNames = names.join(", ");
-                  return (
+                {isLoading &&
+                  [...Array(10)].map((_, i) => (
                     <tr
-                      className="hover:bg-gray-100"
-                      key={(transaction as any).customer}
+                      className="hover:bg-gray-100 animate-pulse"
+                      key={`loading-${i}`}
                     >
-                      <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
-                        {seperatedNames}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm">
+                        <Loader />
+                      </td>
+                      {/* w-full h-4 bg-gray-200 rounded-md dark:bg-gray-700 */}
+                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                        <Loader />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                        {(transaction as any).customer}
+                        <Loader />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                        {separatedEmails}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
-                        {formattedNumber}
+                        <Loader />
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                        <TransactionBadge status={transaction.status} />
+                        <Loader />
                       </td>
                     </tr>
-                  );
-                })}
+                  ))}
+                {!isLoading &&
+                  transactions.map((transaction) => {
+                    const formatter = new Intl.NumberFormat("be-BE", {
+                      style: "currency",
+                      currency: "EUR",
+                    });
+                    const formattedNumber = formatter.format(
+                      transaction.amount / 100
+                    );
+
+                    const names = (transaction as any).charges.data.map(
+                      (d: any) => d.billing_details.name
+                    );
+
+                    const email = (transaction as any).charges.data.map(
+                      (d: any) => d.billing_details.email
+                    );
+                    const separatedEmails = email.join(", ");
+                    const seperatedNames = names.join(", ");
+                    return (
+                      <tr className="hover:bg-gray-100" key={transaction.id}>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-800">
+                          {seperatedNames}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          {(transaction as any).customer}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          {separatedEmails}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-800">
+                          {formattedNumber}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                          <TransactionBadge status={transaction.status} />
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
           </div>

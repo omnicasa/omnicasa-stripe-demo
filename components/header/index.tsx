@@ -23,7 +23,10 @@ const Header = () => {
   const router = useRouter();
   return (
     <header className="flex flex-wrap md:justify-start md:flex-nowrap z-50 w-full bg-white text-sm py-3 md:py-0 px-6 md:px-0">
-      <nav className="container w-full mx-auto" aria-label="Global">
+      <nav
+        className="container w-full mx-auto text-slate-600"
+        aria-label="Global"
+      >
         <div className="relative md:flex md:items-center md:justify-between">
           <div className="flex items-center justify-between">
             <a
@@ -49,7 +52,7 @@ const Header = () => {
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M2.5 12a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5zm0-4a.5.5 0 0 1 .5-.5h10a.5.5 0 0 1 0 1H3a.5.5 0 0 1-.5-.5z"
                   />
                 </svg>
