@@ -49,10 +49,17 @@ const UiWrapper = ({
     return children;
   };
 
+  console.log(navHeight);
+
   return (
     <>
       {!hideNav && <Header />}
-      <Wrapper {...newRest} style={{ minHeight: `100vh - ${navHeight}` }}>
+      <Wrapper
+        {...newRest}
+        style={{
+          minHeight: `calc(100vh - ${navHeight}px)`,
+        }}
+      >
         <Head>
           <title>{title ? `${title} | ` : ""}Omnicasa Recurring Payments</title>
         </Head>
