@@ -1,4 +1,5 @@
 import Head from "next/head";
+import { useEffect, useState } from "react";
 import { Header } from "../header";
 
 type Props = {
@@ -19,10 +20,18 @@ const UiWrapper = ({
   hideNav = false,
   ...rest
 }: Props) => {
-  const wrapperClass = `bg-slate-50 min-h-screen w-full p-8${
+  const [navHeight, setNavHeight] = useState(0);
+  const wrapperClass = `bg-slate-50 w-full p-8${
     rest.className ? ` ${rest.className}` : ""
   }`;
   const newRest = { ...rest, className: wrapperClass };
+
+  useEffect(() => {
+    const header = document.querySelector("header");
+    if (header) {
+      setNavHeight(header.clientHeight);
+    }
+  }, []);
 
   const renderContainer = () => {
     if (hasContainer) {
@@ -40,10 +49,17 @@ const UiWrapper = ({
     return children;
   };
 
+  console.log(navHeight);
+
   return (
     <>
       {!hideNav && <Header />}
-      <Wrapper {...newRest}>
+      <Wrapper
+        {...newRest}
+        style={{
+          minHeight: `calc(100vh - ${navHeight}px)`,
+        }}
+      >
         <Head>
           <title>{title ? `${title} | ` : ""}Omnicasa Recurring Payments</title>
         </Head>
